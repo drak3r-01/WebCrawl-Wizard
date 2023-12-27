@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scraping report</title>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #f0f0f0, #e0e0e0);
+            margin: 20px;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+        }
+
+        img {
+            display: block;
+            margin: 0 auto;
+            width: 255px;
+            height: 255px;
+            border-radius: 50%;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #00796b;
+            margin-top: 20px;
+        }
+
+        h3 {
+            color: #6a1b9a;
+            margin-top: 15px;
+            cursor: pointer;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .dynamiqueSection {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(to right, #f0f0f0, #e0e0e0);
+            color: #6a1b9a;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s, opacity 0.5s;
+        }
+
+        .dynamiqueSection:hover {
+            background: linear-gradient(to right, #e0e0e0, #c6c6c6);
+            opacity: 0.8;
+        }
+
+        .content {
+            padding: 10px;
+            display: none;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined', serif;
+            font-size: 24px;
+        }
+    </style>
+</head>
+
+<body>
+<img src="../WebCrawl%20Wizard%20Image.jpg" alt="Site Logo">
+<h1>Scraping report</h1>
+{% for domain in domains %}
+    <h2>Domain : {{ domain.name }}</h2>
+    {% for site in sites if site.domain_id == domain.id %}
+        <div class="dynamiqueSection" onclick="toggleSection('{{ site.name }}')">
+            <h3>Site : {{ site.name }}</h3>
+            <span class="material-symbols-outlined">menu_open</span>
+        </div>
+        <div class="content" id="{{ site.name }}">
+            <table>
+                <thead>
+                <tr>
+                    <th>Link name</th>
+                    <th>URL</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for link in links if link.site_id == site.id %}
+                    <tr>
+                        <td>{{ link.name }}</td>
+                        <td>{{ link.url }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+{% endfor %}
+
+<script>
+    function toggleSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        // Vérifier si la propriété display est vide ou non définie (pour éviter le premier click sans action)
+        if (!section.style.display || section.style.display === 'none') {
+            section.style.display = 'block';
+        } else {
+            section.style.display = 'none';
+        }
+    }
+</script>
+</body>
+</html>

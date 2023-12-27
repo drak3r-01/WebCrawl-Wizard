@@ -1,0 +1,6 @@
+/output_rapport/*.html
+.idea/
+.venv/
+config.local.json
+.vscode/
+__pycache__/
